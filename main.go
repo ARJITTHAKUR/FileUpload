@@ -40,7 +40,6 @@ func main() {
 	}
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		// send html file
 		t, err := template.New("index").Parse(html)
 		if err != nil {
 			w.Write([]byte("some error occurec"))
