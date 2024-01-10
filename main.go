@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -10,7 +9,7 @@ import (
 )
 
 const port = "8080"
-const html = `
+const form = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,6 +49,20 @@ const html = `
 </body>
 </html>
 `
+const uploaded = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Files uploaded !</h1>
+    <button onclick="window.history.back()">Go back</button>
+</body>
+</html>
+`
 
 func main() {
 
@@ -61,7 +74,7 @@ func main() {
 	}
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		t, err := template.New("index").Parse(html)
+		t, err := template.New("index").Parse(form)
 		if err != nil {
 			w.Write([]byte("some error occurec"))
 		}
@@ -105,7 +118,15 @@ func main() {
 			}
 
 		}
-		fmt.Fprintf(w, "file upload completed!")
+		// fmt.Fprintf(w, "file upload completed!")
+		t, err := template.New("uploaded").Parse(uploaded)
+		if err != nil {
+			w.Write([]byte("some error occurec"))
+		}
+		err = t.Execute(w, nil)
+		if err != nil {
+			log.Fatal(err)
+		}
 	})
 
 	log.Fatal(server.ListenAndServe())
