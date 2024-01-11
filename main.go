@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"text/template"
 )
 
@@ -102,8 +104,9 @@ func main() {
 				http.Error(w, err.Error()+":3", http.StatusBadRequest)
 				return
 			}
-
-			file, err := os.Create(part.FileName())
+			path := filepath.Join("./uploaded/" + part.FileName())
+			fmt.Println(path)
+			file, err := os.Create(path)
 			if err != nil {
 				http.Error(w, err.Error()+":4", http.StatusBadRequest)
 				return
@@ -128,6 +131,13 @@ func main() {
 			log.Fatal(err)
 		}
 	})
+
+	err := os.Mkdir("uploaded", 0777)
+	if err != nil {
+		if !os.IsExist(err) {
+			log.Fatal(err)
+		}
+	}
 
 	log.Fatal(server.ListenAndServe())
 }
