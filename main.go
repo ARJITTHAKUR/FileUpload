@@ -121,7 +121,6 @@ func main() {
 			}
 
 		}
-		// fmt.Fprintf(w, "file upload completed!")
 		t, err := template.New("uploaded").Parse(uploaded)
 		if err != nil {
 			w.Write([]byte("some error occurec"))
