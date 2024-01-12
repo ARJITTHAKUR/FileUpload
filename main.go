@@ -78,7 +78,7 @@ func main() {
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		t, err := template.New("index").Parse(form)
 		if err != nil {
-			w.Write([]byte("some error occurec"))
+			w.Write([]byte("some error occured"))
 		}
 		err = t.Execute(w, nil)
 		if err != nil {
@@ -123,7 +123,7 @@ func main() {
 		}
 		t, err := template.New("uploaded").Parse(uploaded)
 		if err != nil {
-			w.Write([]byte("some error occurec"))
+			w.Write([]byte("some error occured"))
 		}
 		err = t.Execute(w, nil)
 		if err != nil {
@@ -137,6 +137,6 @@ func main() {
 			log.Fatal(err)
 		}
 	}
-
+	fmt.Printf("Server running on port: %s \n", port)
 	log.Fatal(server.ListenAndServe())
 }
