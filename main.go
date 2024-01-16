@@ -78,7 +78,7 @@ func main() {
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		t, err := template.New("index").Parse(form)
 		if err != nil {
-			w.Write([]byte("some error occured"))
+			http.Error(w, err.Error(), http.StatusBadRequest)
 		}
 		err = t.Execute(w, nil)
 		if err != nil {
